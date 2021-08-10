@@ -26,7 +26,12 @@
         </div>
       </section>
 
-      <img src="dice-5.png" alt="Playing dice" class="dice" />
+      <div class = "scene">
+        <div class="cube hidden">
+        <!-- cube faces generated dynamically by the script -->
+      </div>
+
+    </div>
       <button class="btn btn--rules">📜 Rules</button>
       <button class="btn btn--new">🔄 New game</button> 
       <button class="btn btn--roll">🎲 Roll dice</button>
@@ -34,7 +39,7 @@
     </main>
     <div class="modal ">
       <button class="close-modal">&times;</button>
-      <h1>Dice roll game rules:</h1>
+      <h1>Game rules:</h1>
       <p>
         1.Player 1 rolls first by default<br>
         2.If you roll a 1 your current score gets reset to 0 and your turn is over<br>
@@ -43,7 +48,7 @@
         Have fun!
       </p>
     </div>
-    <div class="overlay "></div>
+    <div class="overlay"></div>
     <script src="script.js"></script>
   </body>
 </html>

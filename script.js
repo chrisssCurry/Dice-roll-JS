@@ -8,7 +8,7 @@ const score1El = document.getElementById('score--1');
 const current0El = document.getElementById('current--0');
 const current1El = document.getElementById('current--1');
 
-const diceEl = document.querySelector('.dice');
+const cube = document.querySelector('.cube');
 const btnNew = document.querySelector('.btn--new');
 const btnRoll = document.querySelector('.btn--roll');
 const btnHold = document.querySelector('.btn--hold');
@@ -19,6 +19,9 @@ const btnCloseModal = document.querySelector('.close-modal');
 const btnOpenRules = document.querySelector('.btn--rules');
 
 let scores, currentScore, activePlayer, playing;
+let currentClass = '';
+
+
 
 // Game rules modal
 const openModal = function () {
@@ -56,12 +59,25 @@ const init = function () {
   current0El.textContent = 0;
   current1El.textContent = 0;
 
-  diceEl.classList.add('hidden');
+  cube.classList.add('hidden');
   player0El.classList.remove('player--winner');
   player1El.classList.remove('player--winner');
   player0El.classList.add('player--active');
   player1El.classList.remove('player--active');
+
+//Generate cube faces
+let html = '';
+for (let i = 1; i <= 6; i++ ) {
+  html += `
+  <div class="cube__face cube__face--${i}"><img class="dice-img" src="/dice-${i}.png"></div>
+  `
+  + '';
+}
+//Insert into html
+cube.insertAdjacentHTML("beforeend", html);
 };
+
+
 init();
 
 const switchPlayer = function () {
@@ -73,14 +89,22 @@ const switchPlayer = function () {
 };
 
 // Rolling dice functionality
-btnRoll.addEventListener('click', function () {
+btnRoll.addEventListener('click', rollDice);
+
+function rollDice() {
   if (playing) {
     // 1. Generating a random dice roll
     const dice = Math.trunc(Math.random() * 6) + 1;
 
     // 2. Display dice
-    diceEl.classList.remove('hidden');
-    diceEl.src = `dice-${dice}.png`;
+    cube.classList.remove('hidden');
+
+    let showClass = 'show-' + dice;
+      if ( currentClass ) {
+        cube.classList.remove( currentClass );
+      }
+      cube.classList.add( showClass );
+      currentClass = showClass;
 
     // 3. Check for rolled 1
     if (dice !== 1) {
@@ -94,7 +118,7 @@ btnRoll.addEventListener('click', function () {
       switchPlayer();
     }
   }
-});
+}
 
 btnHold.addEventListener('click', function () {
   if (playing) {
@@ -109,7 +133,7 @@ btnHold.addEventListener('click', function () {
     if (scores[activePlayer] >= 100) {
       // Finish the game
       playing = false;
-      diceEl.classList.add('hidden');
+      cube.classList.add('hidden');
 
       document
         .querySelector(`.player--${activePlayer}`)
@@ -118,7 +142,6 @@ btnHold.addEventListener('click', function () {
         .querySelector(`.player--${activePlayer}`)
         .classList.remove('player--active');
     } else {
-      // Switch to the next player
       switchPlayer();
     }
   }
